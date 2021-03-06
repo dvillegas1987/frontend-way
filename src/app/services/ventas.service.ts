@@ -15,18 +15,18 @@ export class VentasService {
 
   getVentas()
   {
-     return this.http.get<IVenta[]>('http://localhost:3000/ventas');
+     return this.http.get<IVenta[]>('https://backend-way-indumentaria.herokuapp.com/ventas');
   }
 
   getVentasByVendedor(id_vendedor:number)
   {
-     return this.http.get<IVenta[]>('http://localhost:3000/ventas-por-vendedor/'+id_vendedor);
+     return this.http.get<IVenta[]>('https://backend-way-indumentaria.herokuapp.com/ventas-por-vendedor/'+id_vendedor);
   }
 
   saveVenta(unaVenta:IVenta)
   {
     unaVenta.fecha_venta=unaVenta.fecha_venta.year+'-'+unaVenta.fecha_venta.month+'-'+unaVenta.fecha_venta.day;
-    return this.http.post('http://localhost:3000/ventas',unaVenta);
+    return this.http.post('https://backend-way-indumentaria.herokuapp.com/ventas',unaVenta);
   }
 
   saveVentaByLector(unaVenta:IVenta)
@@ -37,44 +37,44 @@ export class VentasService {
       forma_pago:null,
       vendedor:unaVenta.vendedor
     }
-    return this.http.post('http://localhost:3000/ventas-lector',datos_venta);
+    return this.http.post('https://backend-way-indumentaria.herokuapp.com/venta_impaga_paga/ventas-lector',datos_venta);
   }
 
   updateVenta(unaVenta:IVenta){
 
     let id:number = unaVenta.id_venta;
     unaVenta.fecha_venta=unaVenta.fecha_venta.year+'-'+unaVenta.fecha_venta.month+'-'+unaVenta.fecha_venta.day;
-    return this.http.put('http://localhost:3000/ventas/'+id,unaVenta);
+    return this.http.put('https://backend-way-indumentaria.herokuapp.com/venta_impaga_paga/ventas/'+id,unaVenta);
 
 
    }
 
   deleteVenta(id:number){
 
-    return this.http.delete('http://localhost:3000/ventas/' +id);
+    return this.http.delete('https://backend-way-indumentaria.herokuapp.com/venta_impaga_paga/ventas/' +id);
   }
 
 
   getImpagas(id_vip:number,estado:number)
   {
-    return this.http.get<IVentaDetalle[]>('http://localhost:3000/ventas-impagas/'+id_vip+'/'+estado);
+    return this.http.get<IVentaDetalle[]>('https://backend-way-indumentaria.herokuapp.com/venta_impaga_paga/ventas-impagas/'+id_vip+'/'+estado);
   }
 
   getPagas(id_vip:number,estado:number)
   {
-    return this.http.get<IVentaDetalle[]>('http://localhost:3000/ventas-pagas/'+id_vip+'/'+estado);
+    return this.http.get<IVentaDetalle[]>('https://backend-way-indumentaria.herokuapp.com/venta_impaga_paga/ventas-pagas/'+id_vip+'/'+estado);
   }
 
 
   sendPagasImpagas(id_venta_detalle:number,id_producto:number,estado:number)
   {
-    return this.http.get('http://localhost:3000/enviar-pagas-impagas/'+id_venta_detalle+'/'+id_producto+'/'+estado);
+    return this.http.get('https://backend-way-indumentaria.herokuapp.com/venta_impaga_paga/enviar-pagas-impagas/'+id_venta_detalle+'/'+id_producto+'/'+estado);
   }
 
 
   sendToImpagaDevoluciones(lista_impagas_devoluciones:any)
   { 
-    return this.http.post('http://localhost:3000/enviar-impagas-devoluciones',lista_impagas_devoluciones);
+    return this.http.post('https://backend-way-indumentaria.herokuapp.com/venta_impaga_paga/enviar-impagas-devoluciones',lista_impagas_devoluciones);
   }
 
   confirmVenta(id:number,estado:number)
@@ -82,19 +82,19 @@ export class VentasService {
     const datos = {
       estado:estado
     }
-    return this.http.put('http://localhost:3000/confirmar-impagas/'+id,datos);
+    return this.http.put('https://backend-way-indumentaria.herokuapp.com/venta_impaga_paga/confirmar-impagas/'+id,datos);
   }
 
 
   sendStockVenta(id_venta_detalle:number,id_producto:number,tipo_movimiento:number,vendedor:number)
   {
-    return this.http.get('http://localhost:3000/enviar-stock-venta/'+id_venta_detalle+'/'+id_producto+'/'+tipo_movimiento+'/'+vendedor);
+    return this.http.get('https://backend-way-indumentaria.herokuapp.com/venta_impaga_paga/enviar-stock-venta/'+id_venta_detalle+'/'+id_producto+'/'+tipo_movimiento+'/'+vendedor);
   }
 
 
   sendStock(id:number)
   {
-    return this.http.get('http://localhost:3000/ventas-a-stock/'+id);
+    return this.http.get('https://backend-way-indumentaria.herokuapp.com/venta_impaga_paga/ventas-a-stock/'+id);
   }
 
 }

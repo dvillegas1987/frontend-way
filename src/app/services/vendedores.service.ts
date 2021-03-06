@@ -12,14 +12,14 @@ export class VendedoresService {
 
   getVendedores(){
 
-    return this.http.get<IVendedor[]>('http://localhost:3000/vendedores');
+    return this.http.get<IVendedor[]>('https://backend-way-indumentaria.herokuapp.com/vendedores');
 
 
    }
 
    saveVendedores(unVendedor:IVendedor){
 
-    return this.http.post('http://localhost:3000/vendedores', unVendedor);
+    return this.http.post('https://backend-way-indumentaria.herokuapp.com/vendedores', unVendedor);
     
 
    }
@@ -28,7 +28,7 @@ export class VendedoresService {
 
     let id:number = unVendedor.id_vendedor;
 
-    return this.http.put('http://localhost:3000/vendedores/'+id,unVendedor);
+    return this.http.put('https://backend-way-indumentaria.herokuapp.com/vendedores/'+id,unVendedor);
 
 
    }
@@ -36,7 +36,7 @@ export class VendedoresService {
 
    deleteVendedor(id:number){
 
-    return this.http.delete('http://localhost:3000/vendedores/' +id);
+    return this.http.delete('https://backend-way-indumentaria.herokuapp.com/vendedores/' +id);
    }
 
 }
