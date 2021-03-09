@@ -97,4 +97,9 @@ export class VentasService {
     return this.http.get('https://backend-way-indumentaria.herokuapp.com/ventas-a-stock/'+id);
   }
 
+
+  getTotalPagasImpagas(id_vendedor:number)
+  {
+    return this.http.get('http://localhost:3000/total-impagas-pagas/'+id_vendedor);
+  }
 }

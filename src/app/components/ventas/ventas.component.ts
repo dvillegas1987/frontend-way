@@ -52,6 +52,11 @@ export class VentasComponent implements OnInit {
   toastclass:string = '';
   toastmensaje:string = '';
 
+  total_pagas:number = 0;
+  total_impagas:number = 0;
+
+  datos_totales:any;
+
   @ViewChildren('inputs_i') inputs_i: QueryList<ElementRef>;
   @ViewChildren('inputs_d') inputs_d: QueryList<ElementRef>;
 
@@ -113,7 +118,7 @@ export class VentasComponent implements OnInit {
   createTable(data:IVenta[]):ITable
   {
     return new Table([
-        ['N°','Cod.Prod.','Producto','Cantidad','Importe unitario($)','Total($)','Fecha de venta','D',' I'],
+        ['N°','Cod.Prod.','Producto','Cantidad','Importe unitario($)','Total($)','Fecha de venta','V',' D'],
         ...this.extractData(data)
     ])
     .layout({
@@ -229,6 +234,8 @@ export class VentasComponent implements OnInit {
         this.idVendedor = this.listVendVentas[0].id_vendedor;
         this.nombre_ape = this.listVendVentas[0].nombre.toUpperCase()+', '+this.listVendVentas[0].apellido.toUpperCase();
         this.buscarVenta= 'v_'+this.listVendVentas[0].id_vendedor;
+
+        this.obtenerTotalPagaImpaga(this.listVendVentas[0].id_vendedor);
       },
       error => console.log(error)
     )
@@ -293,6 +300,8 @@ editarVenta(venta:IVenta){
      this.formVenta.get('vendedor').setValue(id_vendedor);
      this.idVendedor = id_vendedor;
      this.nombre_ape = nombre.toUpperCase()+', '+apellido.toUpperCase();
+
+     this.obtenerTotalPagaImpaga(id_vendedor);
    }
 
 
@@ -380,6 +389,19 @@ editarVenta(venta:IVenta){
       resultado => {
           console.log(resultado);
           this.obtenerVentas();
+      },
+      error => console.log(error)
+    );
+  }
+
+  obtenerTotalPagaImpaga(id_vendedor:number)
+  {
+
+    this.ventasServ.getTotalPagasImpagas(id_vendedor).subscribe(
+      resultado => {
+        this.datos_totales = resultado;
+        this.total_impagas = resultado.total_impagas;
+        this.total_pagas = resultado.total_pagas;
       },
       error => console.log(error)
     );

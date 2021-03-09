@@ -44,6 +44,11 @@ export class VentaDetalleComponent implements OnInit {
   p2:number = 1;
   buscar2:any;
 
+  total_pagas:number = 0;
+  total_impagas:number = 0;
+
+  datos_totales:any;
+
   constructor(private activatedRouter:ActivatedRoute,private ventaServ:VentasService) { }
 
   ngOnInit(): void {
@@ -61,6 +66,7 @@ export class VentaDetalleComponent implements OnInit {
     console.log(this.id_vpi);
     this.obtenerVentasPagas(this.id_vpi);
     this.obtenerVentasImpagas(this.id_vpi);
+    this.obtenerTotalPagaImpaga();
   }
 
   confirmarVenta(id:number)
@@ -148,6 +154,8 @@ export class VentaDetalleComponent implements OnInit {
          this.obtenerVentasImpagas(this.id_vpi);
          this.obtenerVentasPagas(this.id_vpi);
 
+         this.obtenerTotalPagaImpaga();
+
          let id = '#imp_'+this.input_id_venta_detalle;
          setTimeout(function(){
             $(id).attr('checked', true);
@@ -211,5 +219,18 @@ export class VentaDetalleComponent implements OnInit {
   cerrarModal()
   {
     $('#myModalEnviar').modal('toggle');
+  }
+
+  obtenerTotalPagaImpaga()
+  {
+
+    this.ventaServ.getTotalPagasImpagas(this.vendedor).subscribe(
+      resultado => {
+        this.datos_totales = resultado;
+        this.total_impagas = resultado.total_impagas;
+        this.total_pagas = resultado.total_pagas;
+      },
+      error => console.log(error)
+    );
   }
 }
