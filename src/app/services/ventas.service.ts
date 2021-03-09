@@ -100,6 +100,6 @@ export class VentasService {
 
   getTotalPagasImpagas(id_vendedor:number)
   {
-    return this.http.get('http://localhost:3000/total-impagas-pagas/'+id_vendedor);
+    return this.http.get('https://backend-way-indumentaria.herokuapp.com/total-impagas-pagas/'+id_vendedor);
   }
 }
