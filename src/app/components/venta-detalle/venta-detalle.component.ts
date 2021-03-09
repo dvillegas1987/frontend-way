@@ -227,8 +227,8 @@ export class VentaDetalleComponent implements OnInit {
     this.ventaServ.getTotalPagasImpagas(this.vendedor).subscribe(
       resultado => {
         this.datos_totales = resultado;
-        this.total_impagas = resultado.total_impagas;
-        this.total_pagas = resultado.total_pagas;
+        this.total_impagas = this.datos_totales.total_impagas;
+        this.total_pagas = this.datos_totales.total_pagas;
       },
       error => console.log(error)
     );

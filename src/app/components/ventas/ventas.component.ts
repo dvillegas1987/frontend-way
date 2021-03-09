@@ -400,8 +400,8 @@ editarVenta(venta:IVenta){
     this.ventasServ.getTotalPagasImpagas(id_vendedor).subscribe(
       resultado => {
         this.datos_totales = resultado;
-        this.total_impagas = resultado.total_impagas;
-        this.total_pagas = resultado.total_pagas;
+        this.total_impagas = this.datos_totales.total_impagas;
+        this.total_pagas = this.datos_totales.total_pagas;
       },
       error => console.log(error)
     );
