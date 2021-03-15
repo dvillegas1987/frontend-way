@@ -174,8 +174,10 @@ export class VentasComponent implements OnInit {
           this.obtenerVentas();
 
           this.formVenta.get('producto').setValue(null);
-          this.formVenta.get('descuento').setValue(0);
+          //this.formVenta.get('descuento').setValue(0);
           this.formVenta.get('forma_pago').setValue(-1);
+
+          this.total_impagas = 0;
 
         }else{
 
@@ -320,6 +322,20 @@ editarVenta(venta:IVenta){
       if(cantidad >= total_input){
         (<HTMLInputElement>document.getElementById(id)).value = String(input);
       }
+
+      this.total_impagas = null;
+      if(estado == 'i')
+      {
+        this.inputs_i.forEach((input: ElementRef) => {
+        
+          let objeto = {};
+  
+          let str = input.nativeElement.id;
+          let id = str.slice(2);
+          this.total_impagas += (Number((<HTMLInputElement>document.getElementById('i_'+id)).value))*Number((<HTMLInputElement>document.getElementById('i_'+id+'_precio_unitario')).value);
+        
+        });
+      }
       
    }
 
@@ -330,6 +346,20 @@ editarVenta(venta:IVenta){
       {
         let input =  Number((<HTMLInputElement>document.getElementById(id)).value) - 1;
         (<HTMLInputElement>document.getElementById(id)).value = String(input);
+      }
+
+      this.total_impagas = null;
+      if(estado == 'i')
+      {
+        this.inputs_i.forEach((input: ElementRef) => {
+        
+          let objeto = {};
+  
+          let str = input.nativeElement.id;
+          let id = str.slice(2);
+          this.total_impagas += (Number((<HTMLInputElement>document.getElementById('i_'+id)).value))*Number((<HTMLInputElement>document.getElementById('i_'+id+'_precio_unitario')).value);
+        
+        });
       }
    }
 
@@ -399,9 +429,9 @@ editarVenta(venta:IVenta){
 
     this.ventasServ.getTotalPagasImpagas(id_vendedor).subscribe(
       resultado => {
-        this.datos_totales = resultado;
+        /*this.datos_totales = resultado;
         this.total_impagas = this.datos_totales.total_impagas;
-        this.total_pagas = this.datos_totales.total_pagas;
+        this.total_pagas = this.datos_totales.total_pagas;*/
       },
       error => console.log(error)
     );
