@@ -74,7 +74,8 @@ export class VentasComponent implements OnInit {
       forma_pago:[-1],
       descuento_aplicado:[''],
       //planilla:[0],
-      vendedor:[null]
+      vendedor:[null],
+      cantidad:[1]
 
     });
 
@@ -231,7 +232,12 @@ export class VentasComponent implements OnInit {
   {
     this.ventasVendServ.getVendedores().subscribe(
       resultado => {
-        this.listVendVentas = resultado;
+
+        let result =  resultado.filter(function(vendedor) {
+          return vendedor.estado == 1;
+        });
+
+        this.listVendVentas = result;
         this.formVenta.get('vendedor').setValue(this.listVendVentas[0].id_vendedor);
         this.idVendedor = this.listVendVentas[0].id_vendedor;
         this.nombre_ape = this.listVendVentas[0].nombre.toUpperCase()+', '+this.listVendVentas[0].apellido.toUpperCase();
@@ -435,6 +441,19 @@ editarVenta(venta:IVenta){
       },
       error => console.log(error)
     );
+  }
+
+  inc()
+  {
+    this.formVenta.get('cantidad').setValue(this.formVenta.get('cantidad').value +1);
+  }
+
+  dis()
+  {
+    if(this.formVenta.get('cantidad').value >1)
+    {
+      this.formVenta.get('cantidad').setValue(this.formVenta.get('cantidad').value -1);
+    }
   }
   
 }

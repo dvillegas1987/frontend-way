@@ -35,7 +35,8 @@ export class VentasService {
       codigo_producto:unaVenta.producto,
       descuento:null,
       forma_pago:null,
-      vendedor:unaVenta.vendedor
+      vendedor:unaVenta.vendedor,
+      cantidad:unaVenta.cantidad
     }
     return this.http.post('https://backend-way-indumentaria.herokuapp.com/ventas-lector',datos_venta);
   }

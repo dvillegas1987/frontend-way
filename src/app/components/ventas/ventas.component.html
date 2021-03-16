@@ -53,7 +53,15 @@
                                 <div class="row" style="padding-bottom: 10px;padding-top: 0px;">
                                     <input type="hidden" formControlName="vendedor" placeholder="vendedor">
                                     <div class="col-md-2" style="padding-top: 0px;">
-                                        <input autofocus type="text" class="form-control"  (keydown.enter)="guardarVentaPorLector($event.target.value)" formControlName="producto" placeholder="codigo">
+                                        <input #myInput autofocus type="text" class="form-control"  (keydown.enter)="guardarVentaPorLector($event.target.value)" formControlName="producto" placeholder="codigo">
+                                    </div>
+                                    <div class="col-md-2" style="padding-top: 25px;">
+                                        <!--<input type="number" class="form-control"  (keydown.enter)="guardarVentaPorLector('')" formControlName="cantidad" placeholder="cantidad">-->
+                                        <div class="btn-group btn-group-sm"  aria-label="Basic example">
+                                            <button  (click)="dis();myInput.focus()" type="button" class="btn btn-outline-danger" ><i class="fas fa-minus"></i></button>
+                                            <input value="1" type="number" readonly style="width: 30px;" formControlName="cantidad">
+                                            <button (click)="inc();myInput.focus()" type="button" class="btn btn-outline-success"><i class="fas fa-plus"></i></button>
+                                        </div>
                                     </div>
                                     <div class="col-md-3 ml-auto">
                                         <span class="badge badge-danger" style="font-size: 11px;">T. IMPAGAS: ${{total_impagas}}</span>
