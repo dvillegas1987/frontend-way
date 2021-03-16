@@ -48,7 +48,7 @@
                                     <input (change)="selectedRow(venta.id_venta_detalle,venta.producto,0)" type="radio" id="imp_{{venta.id_venta_detalle}}" value="imp_{{venta.id_venta_detalle}}" name="imp_{{venta.id_venta}}" class="form-check-input">
                                 </div>
                             </td>
-                            <td>{{venta.id_venta_detalle}}</td>
+                            <td><span class="badge badge-warning">{{venta.codigo_producto}}</span></td>
                             <td>{{venta.descripcion_producto}}</td>
                             <td><span class="badge badge-info">{{venta.cantidad}}</span></td>
                             <td>${{venta.importe}}</td>
@@ -120,7 +120,7 @@
                                     <input (change)="selectedRow(venta.id_venta_detalle,venta.producto,1)" type="radio" id="imp_{{venta.id_venta_detalle}}"  name="imp_{{venta.id_venta}}" class="form-check-input">
                                 </div>
                             </td>
-                            <td>{{venta.id_venta_detalle}}</td>
+                            <td><span class="badge badge-warning">{{venta.codigo_producto}}</span></td>
                             <td>{{venta.descripcion_producto}}</td>
                             <td><span class="badge badge-info">{{venta.cantidad}}</span></td>
                             <td>${{venta.importe}}</td>
