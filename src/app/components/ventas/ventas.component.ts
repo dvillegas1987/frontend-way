@@ -17,7 +17,7 @@ import { DOCUMENT } from '@angular/common';
 import { PdfMakeWrapper, Txt, Table } from 'pdfmake-wrapper';
 import { ITable} from 'pdfmake-wrapper/lib/interfaces';
 declare var $: any;
-type TableRow = [number,string,string,number,string,string,string,string,string];
+type TableRow = [number,string,string,number,string,string,string,string,string,string];
 @Component({
   selector: 'app-ventas',
   templateUrl: './ventas.component.html',
@@ -56,6 +56,12 @@ export class VentasComponent implements OnInit {
   total_impagas:number = 0;
 
   datos_totales:any;
+
+  cantidad_vendedores:number = 0;
+
+  cantidad_prendas:number = 0;
+  cantidad_totales:string = '';
+  cantidad_costo:string = '';
 
   @ViewChildren('inputs_i') inputs_i: QueryList<ElementRef>;
   @ViewChildren('inputs_d') inputs_d: QueryList<ElementRef>;
@@ -118,9 +124,15 @@ export class VentasComponent implements OnInit {
   }
   createTable(data:IVenta[]):ITable
   {
+    data.forEach(elemento => {
+        this.cantidad_prendas = this.cantidad_prendas + elemento.cantidad;
+        this.cantidad_costo = String(Number(this.cantidad_costo) + Number(elemento.precio_costo));
+        this.cantidad_totales = String(Number(this.cantidad_totales) + Number(elemento.importe));
+    });
     return new Table([
-        ['N°','Cod.Prod.','Producto','Cantidad','Importe unitario($)','Total($)','Fecha de venta','V',' D'],
-        ...this.extractData(data)
+        ['N°','Cod.Prod.','Producto','Cantidad','Costo($)','Importe unitario($)','Total($)','Fecha de venta','V',' D'],
+        ...this.extractData(data),
+        ['',{text: 'Totales', bold:true},'',{text: this.cantidad_prendas, bold:true},{text: '$'+this.cantidad_costo, bold:true},'',{text: '$'+this.cantidad_totales, bold:true},'','','']
     ])
     .layout({
         fillColor: (rowIndex:number,node:any, columnIndex:number):any => {
@@ -132,7 +144,7 @@ export class VentasComponent implements OnInit {
   }
 
   extractData(data:IVenta[]):TableRow[] {
-    return data.map((row,index) => [index+1,row.codigo_producto,row.producto_descripcion,row.cantidad,row.importe_unitario,row.importe,row.fecha_venta_formateada,' ',' '])
+    return data.map((row,index) => [index+1,row.codigo_producto,row.producto_descripcion,row.cantidad,row.precio_costo,row.importe_unitario,row.importe,row.fecha_venta_formateada,' ',' '])
   }
   /** Finalizacion de configuracion de PDF */
 
@@ -244,6 +256,9 @@ export class VentasComponent implements OnInit {
         this.buscarVenta= 'v_'+this.listVendVentas[0].id_vendedor;
 
         this.obtenerTotalPagaImpaga(this.listVendVentas[0].id_vendedor);
+
+        this.cantidad_vendedores = this.listVendVentas.length;
+
       },
       error => console.log(error)
     )

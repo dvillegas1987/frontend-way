@@ -7,6 +7,7 @@ export interface IVenta
     fecha_venta:any;
     fecha_venta_origin:any;
     fecha_venta_formateada:any;
+    precio_costo?:string;
     importe_unitario:string;
     estado:number;
     forma_pago:number;

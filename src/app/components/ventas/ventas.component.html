@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="card">
-                    <div align="center" class="card-header">VENDEDORES</div>
+                    <div align="center" class="card-header">VENDEDORES <small class="float-sm-right"><span class="badge badge-info" style="font-size:11px;">{{cantidad_vendedores}}</span></small></div>
                 </div>
                 <br>
                 <ul class="list-group">
@@ -59,7 +59,7 @@
                                         <!--<input type="number" class="form-control"  (keydown.enter)="guardarVentaPorLector('')" formControlName="cantidad" placeholder="cantidad">-->
                                         <div class="btn-group btn-group-sm"  aria-label="Basic example">
                                             <button  (click)="dis();myInput.focus()" type="button" class="btn btn-outline-danger" ><i class="fas fa-minus"></i></button>
-                                            <input value="1" type="number" readonly style="width: 30px;" formControlName="cantidad">
+                                            <input value="1" type="number" readonly style="width: 40px;" formControlName="cantidad">
                                             <button (click)="inc();myInput.focus()" type="button" class="btn btn-outline-success"><i class="fas fa-plus"></i></button>
                                         </div>
                                     </div>
