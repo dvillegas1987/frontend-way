@@ -17,7 +17,7 @@ import { DOCUMENT } from '@angular/common';
 import { PdfMakeWrapper, Txt, Table } from 'pdfmake-wrapper';
 import { ITable} from 'pdfmake-wrapper/lib/interfaces';
 declare var $: any;
-type TableRow = [number,string,string,number,string,string,string,string,string,string];
+type TableRow = [number,string,string,number,string,string,/*string,*/string,string,string];
 @Component({
   selector: 'app-ventas',
   templateUrl: './ventas.component.html',
@@ -63,6 +63,8 @@ export class VentasComponent implements OnInit {
   cantidad_totales:string = '';
   cantidad_costo:string = '';
 
+  cantidad_prendas2:number = 0;
+
   @ViewChildren('inputs_i') inputs_i: QueryList<ElementRef>;
   @ViewChildren('inputs_d') inputs_d: QueryList<ElementRef>;
 
@@ -92,8 +94,19 @@ export class VentasComponent implements OnInit {
     this.obtenerProductos();
     //this.obtenerVentasImpPag();
     this.obtenerVendedores();
+    this.cantidadProductosPorVendedor();
   }
 
+
+  cantidadProductosPorVendedor()
+  {
+    this.cantidad_prendas2 = 0;
+    let lvv:IVenta[] = this.listVentas.filter((v:IVenta)=> { return v.vendedor_venta == this.idVendedor} );
+    lvv.forEach(elemento => {
+      this.cantidad_prendas2 = this.cantidad_prendas2 + elemento.cantidad;
+
+  });
+  }
 
   /**
    * Configuracion de PDF
@@ -106,13 +119,14 @@ export class VentasComponent implements OnInit {
     pdf.header(
       new Txt('WAY INDUMENTARIA').alignment('center').fontSize(8).margin([20,15,20,15]).end,
     )
-
+    let date = new Date();
+    let fecha_actual = date.toLocaleDateString('es-AR');
     pdf.add(
       [
         new Txt('PLANILLA DE VENTA').bold().fontSize(13).margin([0,10]).end,
 
         new Txt(
-        'El día de la fecha 21/05/21 él/la minorista '+this.nombre_ape+' se responsabiliza por la serie de productos descriptos a continuación: '
+        'El día de la fecha '+ fecha_actual +' él/la minorista '+this.nombre_ape+' se responsabiliza por la serie de productos descriptos a continuación: '
         ).bold().fontSize(10).margin([0,15]).end
       ]
     );
@@ -124,15 +138,18 @@ export class VentasComponent implements OnInit {
   }
   createTable(data:IVenta[]):ITable
   {
+     this.cantidad_prendas = 0;
+     this.cantidad_costo = null;
+     this.cantidad_totales = null;
     data.forEach(elemento => {
         this.cantidad_prendas = this.cantidad_prendas + elemento.cantidad;
         this.cantidad_costo = String(Number(this.cantidad_costo) + Number(elemento.precio_costo));
         this.cantidad_totales = String(Number(this.cantidad_totales) + Number(elemento.importe));
     });
     return new Table([
-        ['N°','Cod.Prod.','Producto','Cantidad','Costo($)','Importe unitario($)','Total($)','Fecha de venta','V',' D'],
+        ['N°','Cod.Prod.','Producto','Cantidad','Costo($)','Importe unitario($)',/*'Total($)',*/'Fecha de venta','V',' D'],
         ...this.extractData(data),
-        ['',{text: 'Totales', bold:true},'',{text: this.cantidad_prendas, bold:true},{text: '$'+this.cantidad_costo, bold:true},'',{text: '$'+this.cantidad_totales, bold:true},'','','']
+        ['',{text: 'Totales', bold:true},'',{text: this.cantidad_prendas, bold:true},{text: '$'+this.cantidad_costo, bold:true},'',/*'',*/'','','']
     ])
     .layout({
         fillColor: (rowIndex:number,node:any, columnIndex:number):any => {
@@ -144,7 +161,7 @@ export class VentasComponent implements OnInit {
   }
 
   extractData(data:IVenta[]):TableRow[] {
-    return data.map((row,index) => [index+1,row.codigo_producto,row.producto_descripcion,row.cantidad,row.precio_costo,row.importe_unitario,row.importe,row.fecha_venta_formateada,' ',' '])
+    return data.map((row,index) => [index+1,row.codigo_producto,row.producto_descripcion,row.cantidad,row.precio_costo,row.importe_unitario,/*row.importe,row.*/fecha_venta_formateada,' ',' '])
   }
   /** Finalizacion de configuracion de PDF */
 
@@ -160,7 +177,7 @@ export class VentasComponent implements OnInit {
     this.ventasServ.getVentas().subscribe(
       resultado => {
         this.listVentas = resultado;
-        
+        this.cantidadProductosPorVendedor();
       },
       error => console.log(error),
     )
@@ -259,6 +276,9 @@ export class VentasComponent implements OnInit {
 
         this.cantidad_vendedores = this.listVendVentas.length;
 
+        this.cantidadProductosPorVendedor();
+        
+
       },
       error => console.log(error)
     )
@@ -325,6 +345,7 @@ editarVenta(venta:IVenta){
      this.nombre_ape = nombre.toUpperCase()+', '+apellido.toUpperCase();
 
      this.obtenerTotalPagaImpaga(id_vendedor);
+     this.cantidadProductosPorVendedor();
    }
 
 
