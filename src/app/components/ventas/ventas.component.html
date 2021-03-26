@@ -107,7 +107,7 @@
                             </thead>
     
                             <tbody>
-                                <tr *ngFor="let venta of listVentas | filter:buscarVenta | paginate:{itemsPerPage:15,currentPage:p} ">
+                                <tr *ngFor="let venta of listVentas | filter:buscarVenta ">
                                     <td>{{venta.id_venta}}</td>
                                     <td>
                                         <span class="badge badge-warning">{{venta.codigo_producto}}</span>
@@ -147,9 +147,9 @@
     
                         </table>
                         <div class="row">
-                            <div class="col-sm-5">
+                            <!--<div class="col-sm-5">
                                 <pagination-controls (pageChange)="p = $event"></pagination-controls>
-                            </div>
+                            </div>-->
                             <div class="col-sm-2 ml-auto">
                                 <span class="badge badge-info" style="font-size:11px;">Total prendas: {{cantidad_prendas2}}</span>
                             </div>

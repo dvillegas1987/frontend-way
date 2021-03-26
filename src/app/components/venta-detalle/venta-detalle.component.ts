@@ -49,6 +49,8 @@ export class VentaDetalleComponent implements OnInit {
 
   datos_totales:any;
 
+  /*paginate:{itemsPerPage:15,currentPage:p}*/
+
   constructor(private activatedRouter:ActivatedRoute,private ventaServ:VentasService) { }
 
   ngOnInit(): void {
